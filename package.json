@@ -1,1 +1,13 @@
-pkg_cycle
+{
+  "name": "HOOD BOSS NEXUS — Cycle Gate",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
