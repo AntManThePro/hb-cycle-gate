@@ -1,0 +1,14 @@
+{
+  "name": "HOOD BOSS NEXUS — Cycle Gate",
+  "short_name": "Cycle Gate",
+  "description": "New technician review engine. Week 1, Week 2, Week 4, Monthly gates with live callback-risk simulation.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0a0f",
+  "theme_color": "#00ff87",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
