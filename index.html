@@ -1,1 +1,104 @@
-idx_cycle
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#00ff87" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Cycle Gate" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+  <title>HOOD BOSS NEXUS — Cycle Gate</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --panel: #12121a;
+      --line: #1f1f2e;
+      --txt: #e8e8f0;
+      --dim: #6b6b80;
+      --green: #00ff87;
+      --cyan: #60efff;
+      --yellow: #ffcc00;
+      --pink: #ff0080;
+      --red: #ff3b5c;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--txt); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.45; }
+    body { padding: 12px; padding-bottom: 80px; }
+    header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    header .logo { width: 34px; height: 34px; }
+    header h1 { font-size: 16px; margin: 0; letter-spacing: 0.5px; }
+    header .sub { font-size: 11px; color: var(--dim); }
+    .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; }
+    .tab { flex: 0 0 auto; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--dim); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .tab.active { background: var(--green); color: #04130a; border-color: var(--green); }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 12px; }
+    .card h2 { font-size: 13px; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--dim); }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .row:last-child { border-bottom: none; }
+    .name { font-weight: 600; }
+    .meta { font-size: 11px; color: var(--dim); }
+    .badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+    .badge.overdue { background: rgba(255,0,128,0.15); color: var(--pink); }
+    .badge.due { background: rgba(255,204,0,0.15); color: var(--yellow); }
+    .badge.ok { background: rgba(0,255,135,0.12); color: var(--green); }
+    .btn { display: inline-block; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); color: var(--txt); font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn.primary { background: var(--green); color: #04130a; border-color: var(--green); }
+    .btn.danger { background: rgba(255,59,92,0.12); color: var(--red); border-color: rgba(255,59,92,0.4); }
+    .btn:active { transform: scale(0.98); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-size: 11px; color: var(--dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .field input, .field select, .field textarea { width: 100%; background: #0d0d14; border: 1px solid var(--line); border-radius: 10px; padding: 10px; color: var(--txt); font-size: 14px; }
+    .field textarea { min-height: 70px; resize: vertical; }
+    .slider-row { display: flex; align-items: center; gap: 10px; }
+    .slider-row input[type=range] { flex: 1; accent-color: var(--green); }
+    .slider-row .val { width: 34px; text-align: right; font-weight: 700; font-size: 13px; }
+    .verdict { font-size: 18px; font-weight: 800; letter-spacing: 0.5px; }
+    .verdict.advance { color: var(--green); }
+    .verdict.coach { color: var(--yellow); }
+    .verdict.hold { color: var(--pink); }
+    .sim-bar { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; margin: 6px 0; }
+    .sim-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--green), var(--yellow), var(--pink)); }
+    .small { font-size: 11px; color: var(--dim); }
+    .sticky { position: fixed; left: 0; right: 0; bottom: 0; padding: 10px 12px; background: rgba(10,10,15,0.92); border-top: 1px solid var(--line); backdrop-filter: blur(8px); display: flex; gap: 8px; }
+    .sticky .btn { flex: 1; }
+    .hidden { display: none !important; }
+    .toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); background: #1a1a26; border: 1px solid var(--green); color: var(--green); padding: 8px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; z-index: 50; opacity: 0; transition: opacity .2s; }
+    .toast.show { opacity: 1; }
+    canvas { width: 100%; height: 180px; background: #0d0d14; border-radius: 10px; border: 1px solid var(--line); }
+    .pill { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 999px; background: rgba(96,239,255,0.12); color: var(--cyan); margin-right: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <svg class="logo" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="#0a0a0f"/><rect x="28" y="28" width="456" height="456" rx="80" fill="none" stroke="#00ff87" stroke-width="10"/><path d="M110 220 L145 145 L256 110 L367 145 L402 220 L402 250 L110 250 Z" fill="rgba(0,255,135,0.12)" stroke="#00ff87" stroke-width="8"/><g fill="#ffcc00"><rect x="168" y="168" width="16" height="58" rx="2"/><rect x="208" y="168" width="16" height="58" rx="2"/><rect x="248" y="168" width="16" height="58" rx="2"/><rect x="288" y="168" width="16" height="58" rx="2"/><rect x="328" y="168" width="16" height="58" rx="2"/></g><rect x="232" y="250" width="48" height="72" fill="rgba(96,239,255,0.25)" stroke="#60efff" stroke-width="6"/><circle cx="256" cy="360" r="38" fill="none" stroke="#ff0080" stroke-width="8"/><g stroke="#ff0080" stroke-width="6" stroke-linecap="round"><line x1="256" y1="360" x2="256" y2="328"/><line x1="256" y1="360" x2="284" y2="376"/><line x1="256" y1="360" x2="228" y2="376"/></g></svg>
+    <div>
+      <h1>CYCLE GATE</h1>
+      <div class="sub">Hood Boss NEXUS · tech on a clock</div>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <div class="tab active" data-view="roster">Roster</div>
+    <div class="tab" data-view="review">Review</div>
+    <div class="tab" data-view="sim">Simulator</div>
+    <div class="tab" data-view="packet">Packet</div>
+  </div>
+
+  <div id="view-roster"></div>
+  <div id="view-review" class="hidden"></div>
+  <div id="view-sim" class="hidden"></div>
+  <div id="view-packet" class="hidden"></div>
+
+  <div class="sticky">
+    <button class="btn" id="btn-demo">Demo Fleet</button>
+    <button class="btn primary" id="btn-add">+ Add Tech</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="./app-ui.js"></script>
+</body>
+</html>
