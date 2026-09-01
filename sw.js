@@ -1,5 +1,5 @@
-const CACHE = "cycle-gate-v1";
-const ASSETS = ["./index.html", "./manifest.json", "./icons/icon.svg"];
+const CACHE = "cycle-gate-v2";
+const ASSETS = ["./index.html", "./manifest.json", "./icons/icon.svg", "./app-core.js", "./app-ui.js"];
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
